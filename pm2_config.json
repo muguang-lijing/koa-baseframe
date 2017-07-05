@@ -1,0 +1,16 @@
+{
+    "name": "koa2",
+    "script": "./bin/www.js",
+    "watch": true,
+    "ignore_watch": [
+        "public/res",
+        "config/index.js",
+        ".git"
+    ],
+    "instances": 0,
+    "min_uptime": "7s",
+    "max_restarts": 7,
+    // "error_file": "/jd_/data/logs/skill/error.txt",
+    // "out_file": "/jd_/data/logs/skill/log.txt",
+    "exec_mode": "cluster"
+}

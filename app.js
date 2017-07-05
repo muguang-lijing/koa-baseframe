@@ -1,22 +1,24 @@
 "use strict";
 
-//region require
-const app = require('koa')();
+const Koa = require('koa');
+const app = new Koa();
 const json = require('koa-json');
-const hbs = require('koa-hbs');
-const session = require('koa-generic-session');
+const render = require('koa-art-template');
+const session = require('koa-session');
 const redisStore = require('koa-redis');
-const timeout = require('koa-timeout');
 const parser = require('koa-body');
 const serve = require('koa-static');
 const config = require('./config');
-const util = require('./utils');
+const path = require('path');
+const utils = require('./libs/utils');
 const middlewares = require('./middlewares');
-const load = require('./utils/load');
-//endregion
+const load = require('./libs/load');
 
-// 注意npm-shrinkwrap.json
+// global middlewares
 app.use(middlewares.requestUuid);
+app.use(middlewares.requestLogger);
+app.use(middlewares.errorHandler);
+
 app.use(serve(__dirname + '/public', {
   setHeaders: function(res) {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -25,37 +27,32 @@ app.use(serve(__dirname + '/public', {
   }
 }));
 
-app.use(middlewares.requestLogger);
-app.use(middlewares.errorHandler);
-
-// timeout
-app.use(timeout(config.timeout));
-
 // session
-app.keys = ['koa@2016'];
+app.keys = ['koa2'];
 app.use(session({
-  store:redisStore({
-    host: config.redisSession.host,
-    port: config.redisSession.port,
-    db: config.redisSession.db,
-    keySchema: config.sessionKey
-  }),
-  key: config.cookieKey
-}));
+    key: config.cookieKey, /** (string) cookie key (default is koa:sess) */
+    maxAge: 5 * 365 * 24 * 60 * 60 * 1000, // cookie的过期时间为5年
+    rolling: false,
+    store:redisStore({
+      host: config.redisSession.host,
+      port: config.redisSession.port,
+      db: config.redisSession.db,
+      keySchema: config.sessionKey
+    })
+  },app));
 
-// global middlewares
-util.hbs(hbs);
+app.use(middlewares.authControl);
 
-app.use(hbs.middleware({
-    viewPath: __dirname + '/views',
-    layoutsPath: __dirname + '/views/layouts',
-    defaultLayout: 'main',
-    disableCache: util.isProduction()  //调试的时候可以禁止缓存
-}));
+render(app, {
+  root: path.join(__dirname, 'views'),
+  extname: '.htm',
+  debug: !utils.isProduction()
+});
 
-app.use(parser({files: true, multipart: true, fields: true}));
-app.use(json({pretty: !util.isProduction()}));
+app.use(parser({files: true, multipart: true, fields: true,formLimit: '10mb'})); 
+app.use(json({pretty: !utils.isProduction()}));
 
+app.use(middlewares.defaultHandler);
 load(app, __dirname + '/routes');
 
 module.exports = app;
