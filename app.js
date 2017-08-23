@@ -52,6 +52,7 @@ render(app, {
 app.use(parser({files: true, multipart: true, fields: true,formLimit: '10mb'})); 
 app.use(json({pretty: !utils.isProduction()}));
 
+app.use(middlewares.fixRequestBody);
 app.use(middlewares.defaultHandler);
 load(app, __dirname + '/routes');
 

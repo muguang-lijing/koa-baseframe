@@ -59,6 +59,7 @@ koa v2.x 工程级项目架构
 用户表固定为usr，其中必备的基础字段为： id (uuid), name (string), password (string), role (string),head_img(string), email (string)
 用户的session状态保存统一规范，session.role, session.uid, session.uinfo
 或者采用另一种模式： 每个角色一个表，但每个表都必须有id和role字段，表名就是角色名称，而且session用户状态的保存格式一定要统一，按照上面的规范
+- 默认路由处理中间件，当访问不存在的路由时渲染404页面;当浏览器请求默认图标（/favicon.ico）时返回空字符串;访问根目录暂时返回固定欢迎字符串
 
 ### 需要增加的功能
 
