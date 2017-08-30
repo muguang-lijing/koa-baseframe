@@ -62,7 +62,7 @@ module.exports = {
           message = JSON.stringify(err.message);
         }
       }
-      ctx.body = { err: {code,message}, out: {}};
+      ctx.body = { err: {code, msg: message}, out: {}};
     }
   },
   defaultHandler: async (ctx,next) =>{ // 默认处理方式
