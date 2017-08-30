@@ -37,7 +37,9 @@ for (let f of fileList){
         if (ps.length==0){ // 这个文档没有参数
             continue;
         }
-        let router_name = p0.replace(/\s+/g,',').split(',')[2];
+        let router_title_infos = p0.replace(/\s+/g,',').split(',');
+        let router_name = router_title_infos[2];
+        let router_method = router_title_infos[1].replace(/[{}\s]/g,'');
         let apiName = p1.replace(/\s+/g,',').split(',')[1];
         let apiGroup = p2.replace(/\s+/g,',').split(',')[1];
         let apiParams = [];
@@ -47,6 +49,9 @@ for (let f of fileList){
             let obj = {};
             let vr = v.replace(/\s+/g,'，').split('，');
             let p_type = vr[1].replace(/[{}\s]/g,''); // 获取到参数类型
+            if (router_method=="get" && p_type!=="String"){
+                throw new Error(`路由 ${router_name} 的文档第${i+1}个参数的类型配置不符合要求，get方法的参数只能是String类型`);
+            }
             // 判断参数类型是否是合法类型
             if (params_types.indexOf(p_type)==-1){
                 throw new Error(`路由 ${router_name} 的文档第${i+1}个参数的类型配置不符合要求，参数类型必须是:[${params_types}]`);
