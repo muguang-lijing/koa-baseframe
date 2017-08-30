@@ -1,0 +1,201 @@
+{
+/*
+	// Place your snippets for JavaScript here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+*/
+
+/***********  js基本语法  ***********/
+
+    "For Loop": {
+        "prefix": "fr",
+        "body": [
+            "for (let ${index} = 0; ${index} < ${array}.length; ${index}++) {",
+            "\tlet ${element} = ${array}[${index}];",
+            "\t$0",
+            "}"
+        ],
+        "description": "For Loop"
+    },
+	"For of Loop": {
+		"prefix": "fro",
+		"body": [
+			"for (let ${c} of ${arr}){",
+			"\t$0",
+    		"}"
+		],
+		"description": "For of Loop"
+	},
+	"For in Loop": {
+		"prefix": "fri",
+		"body": [
+			"for (let ${i} in ${arr}){",
+			"\t$0",
+    		"}"
+		],
+		"description": "For in Loop"
+	},
+	"New Promise": {
+		"prefix": "np",
+		"body": [
+			"new Promise((resolve, reject) => {",
+			"\t$0",
+			"})"
+		],
+		"description": "new Promise"
+	},
+	"Obj map": {
+		"prefix": "mp",
+		"body": [
+			"let map1 = {",
+			"\t'${name1}': ${value1},",
+			"\t'${name2}': ${value2},",
+			"\t'${name3}': ${value3},",
+			"\t'${name4}': ${value4},",
+			"\t'${name5}': ${value5},",
+			"\t'${name6}': ${value6},",
+			"\t'${name7}': ${value7}",
+			"};"
+		],
+		"description": "obj map"
+	},
+
+/***********  node常用  ***********/
+
+	"Require": {
+		"prefix": "rq",
+		"body": [
+			"const ${name} = require('${path}')$0"
+		],
+		"description": "require module"
+	},
+
+/***********  项目常用  ***********/
+
+	"AsyncFn": {
+		"prefix": "as",
+		"body": [
+			"(async ()=>{",
+			"\t$0",
+			"})().catch(e=>{",
+			"\tconsole.error(e);",
+			"})"
+		],
+		"description": "async 自执行函数"
+	},
+	"Transaction": {
+		"prefix": "trx",
+		"body": [
+			"let trx = await models.sequelize.transaction();",
+			"try {",
+			"\t$0",
+			"\tawait trx.commit();",
+			"} catch (e) {",
+			"\tawait trx.rollback();",
+			"\tlog.error({data: e},'事务执行失败');",
+			"\tthrow new Error('Error: 事务执行失败:' + JSON.stringify(e));",
+			"}"
+		],
+		"description": "事务"
+	},
+	"Transaction in fun": {
+		"prefix": "trxm",
+		"body": [
+			"let trx = t || (await models.sequelize.transaction());",
+			"try {",
+			"\t // { transaction: trx }",
+			"\t$0",
+			"\tt || (await trx.commit());",
+			"} catch (e) {",
+			"\tt || (await trx.rollback());",
+			"\tlog.error({data: e},'事务执行失败');",
+			"\tthrow new Error('Error: 事务执行失败:' + JSON.stringify(e));",
+			"}"
+		],
+		"description": "函数内部事务"
+	},
+	"Router get": {
+		"prefix": "rtrg",
+		"body": [
+			"router.get('/${path}', async (ctx,next) => {",
+            "\tlet query = ctx.query;",
+			"\t$0",
+			"});"
+		],
+		"description": "路由get基本结构"
+	},
+	"Router post": {
+		"prefix": "rtrp",
+		"body": [
+			"router.post('/${path}', async (ctx,next) => {",
+            "\tlet rbody = ctx.request.body;",
+			"\t$0",
+			"});"
+		],
+		"description": "路由get基本结构"
+	},
+	"Routes doc": {
+		"prefix": "docr",
+		"body": [
+			"/**",
+			" * @api {${get}} ${/routes_path} ${路由名称}  ",
+			" * @apiDescription 作者：李静  ",
+			" * ",
+			" * @apiVersion 0.0.2",
+			" * @apiName ${apiName}",
+			" * @apiGroup ${apiGroup}",
+			" * ",
+			" * @apiParam {${String}} ${第一个参数名称} ${第一个参数描述}",
+			" * @apiParam {${Number}} ${第二个参数名称} ${第二个参数描述}",
+			" * @apiParam {${String}} ${第三个参数名称} ${第三个参数描述}",
+			" * @apiParam {${String}} ${第四个参数名称} ${第四个参数描述}",
+			" * ",
+			" * @apiSuccess {Object} err ${错误信息}",
+			" * @apiSuccess {Object} out ${成功信息}",
+			" * @apiSuccessExample {json} 成功时返回的结果：",
+			" * {",
+			" * \terr: { code: 0 },",
+			" * \tout: {",
+			" * \t\t$0",
+			" * \t}",
+			" * }",
+			" */"
+		],
+		"description": "路由文档"
+	},
+	"ResBody": {
+		"prefix": "sbo",
+		"body": [
+			"ctx.body = {",
+			"\terr: '',",
+			"\tout: {",
+			"\t\t$0",
+			"\t}",
+			"};"
+		],
+		"description": "路由响应返回"
+	},	
+	"Paging": {
+		"prefix": "qpg",
+		"body": [
+			"let page = query.page || 0;",
+			"let len = query.len || 10;"
+		],
+		"description": "get请求分页基本代码"
+	},
+	"Db find paging": {
+		"prefix": "dfpg",
+		"body": [
+			"let ${result} = await models.${table}.findAll({",
+            "\twhere: {},",
+			"\tlimit: parseInt(len),",
+			"\toffset: page * len,",
+            "\tattributes: [],",
+            "\torder: [ ['time','DESC'] ],",
+			"\t$0",
+			"});"
+		],
+		"description": "Db分页查询"
+	}
+}

@@ -31,6 +31,6 @@ async function main(){
     global.n = 0;
     global.day_task_tm = new Date().getDate();
 
-    fs.writeFileSync('public/res/temp/testpro'+uuid.v1()+'.txt',"hehe");
+    // fs.writeFileSync('public/res/temp/testpro'+uuid.v1()+'.txt',"hehe");
     console.log("single start");
 }

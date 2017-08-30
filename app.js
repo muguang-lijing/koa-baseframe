@@ -54,6 +54,7 @@ app.use(json({pretty: !utils.isProduction()}));
 
 app.use(middlewares.fixRequestBody);
 app.use(middlewares.defaultHandler);
+app.use(middlewares.checkParams);
 load(app, __dirname + '/routes');
 
 module.exports = app;

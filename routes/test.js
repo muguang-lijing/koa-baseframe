@@ -5,6 +5,8 @@ const router = new Router();
 const log = require('../libs/logger').tag('test');
 const config = require('../config');
 const common = require('../libs/common');
+const utils = require('../libs/utils');
+const util = require('util');
 const redis = config.redis;
 
 router.get('/', ctx => {
@@ -30,8 +32,34 @@ router.get('/getuinfo', ctx => {
     ctx.body = ctx.session;
 });
 
-router.get('/redis', ctx => {
-    ctx.body = "test ok";
+/**
+ * @api {post} /test/redis redis测试  
+ * @apiDescription 作者：李静  
+ * 
+ * @apiVersion 0.0.2
+ * @apiName redis
+ * @apiGroup Test
+ * 
+ * @apiParam {String} id 测试id
+ * @apiParam {Number} num 设置的值　可不填　默认值(-1) 最大值(100) 最小值(-100) 
+ * @apiParam {Array} codes 代码值数组 数组值类型(number)
+ * @apiParam {Number} status 状态值 枚举值(34,3,9)
+ * @apiParam {String} content 内容字符串　限长(5)
+ * @apiParam {Boolean} is_free 是否免费
+ * @apiParam {Object} remark 备注信息　可不填　默认值({})
+ * 
+ * @apiSuccess {Object} err 错误信息
+ * @apiSuccess {Object} out 成功信息 
+ * @apiSuccessExample {json} 成功时返回的结果：
+ * {
+ * 	err: { code: 0 },
+ * 	out: {
+ * 		
+ * 	}
+ * }
+ */
+router.post('/redis', ctx => {
+    ctx.body = "test ok:\n"+JSON.stringify(ctx.request.body,null,4);
 });
 
 router.get('/exit', ctx => {
@@ -48,6 +76,29 @@ router.post('/savefile', async ctx => {
     });
 });
 
+/**
+ * @api {post} test/roletest1 测试路由２  
+ * @apiDescription 作者：李静  
+ * 
+ * @apiVersion 0.0.2
+ * @apiName roletest1
+ * @apiGroup Test
+ * 
+ * @apiParam {String} name 名称　限长(20)
+ * @apiParam {Number} age 年龄　最大值(200)　最小值(0)
+ * @apiParam {Array} interests 兴趣　限长(3)
+ * @apiParam {Object} des 简介
+ * 
+ * @apiSuccess {Object} err 错误信息
+ * @apiSuccess {Object} out 成功信息
+ * @apiSuccessExample {json} 成功时返回的结果：
+ * {
+ * 	err: { code: 0 },
+ * 	out: {
+ * 		
+ * 	}
+ * }
+ */
 router.get('/roletest1', ctx => {
     ctx.body = ctx.method + ' : ' + ctx.path;
 });
