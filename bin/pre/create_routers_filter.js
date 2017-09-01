@@ -189,3 +189,5 @@ let write_str = `
  */
 module.exports = `+JSON.stringify(out,null,4);
 fs.writeFileSync(aim_dir,write_str);
+
+console.log("路由参数自动过滤 代码生成成功");
