@@ -197,5 +197,16 @@
 			"});"
 		],
 		"description": "Db分页查询"
+	},
+	"Db update": {
+		"prefix": "du",
+		"body": [
+			"await models.${table}.update({...}, {",
+			"\twhere: {...},",
+			"\ttransaction: trx,",
+            "\tindividualHooks: true",
+			"});"
+		],
+		"description": "Db更新操作"
 	}
 }

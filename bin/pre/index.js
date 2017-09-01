@@ -21,3 +21,6 @@ try {
 }catch(e){}
 
 require('./create_routers_filter');
+require('./create_db_field_auto_change_code');
+
+process.exit(0);

@@ -10,6 +10,13 @@
             "name": "启动程序",
             "program": "${workspaceRoot}/bin/www.js",
             "cwd": "${workspaceRoot}"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "预执行代码",
+            "program": "${workspaceRoot}/bin/pre/index.js",
+            "cwd": "${workspaceRoot}"
         }
     ]
 }
