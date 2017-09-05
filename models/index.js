@@ -20,9 +20,9 @@ const sequelize = new Sequelize(config.db_uri, {
 let models = {
     sequelize: sequelize,
     db: sequelize, // alias
-    exec: function* (sql, args) { // 可直接执行原生sql语句
+    exec: async function(sql, args){ // 可直接执行原生sql语句
         var options = {replacements: args};
-        var data = yield this.sequelize.query(sql, options);
+        var data = await this.sequelize.query(sql, options);
         if (/select |returning/i.test(sql)) {
             return data[0];
         }
