@@ -125,29 +125,46 @@ module.exports = {
             ctx.throw(`参数 ${pname} 类型错误${doc_str};;1`,200);return;
           }
         }
-        if (p.max !== undefined && p.type === 'number'){
+        if (p.max !== undefined){
           if (query[pname] > p.max){
             ctx.throw(`参数 ${pname} 的值已超过最大值：${p.max} ${doc_str};;1`,200);return;
           }
         }
-        if (p.min !== undefined && p.type === 'number'){
+        if (p.min !== undefined){
           if (query[pname] < p.min){
             ctx.throw(`参数 ${pname} 的值已小于最小值：${p.min} ${doc_str};;1`,200);return;
           }
         }
-        if (p.vtype !== undefined && p.type === 'array'){
+        if (p.vtype !== undefined){
           if ( query[pname].every(v => typeof v == p.vtype) == false ){
             ctx.throw(`参数 ${pname} 的数组元素类型不符合要求，数组元素值类型应为：${p.vtype} ${doc_str};;1`,200);return;
           }
         }
-        if (p.enum !== undefined && ~['string','number'].indexOf(p.type)){
+        if (p.enum !== undefined){
           if (p.enum.indexOf(query[pname])==-1){
             ctx.throw(`参数 ${pname} 的值不在要求的枚举值中间：${[...p.enum]} ${doc_str};;1`,200);return;
           }
         }
-        if (p.limit !== undefined && ~['string','number'].indexOf(p.type)){
+        if (p.okeys !== undefined){
+          for (let k of p.okeys){
+            let kr = k.split('<');
+            let curov = query[pname][kr[0]];
+            if (!curov){
+              ctx.throw(`参数 ${pname} 的值缺少必有字段：${k} ${doc_str};;1`,200);return;
+            }
+            if (kr[1] && typeof curov !== kr[1].slice(0,-1)){
+              ctx.throw(`参数 ${pname} 的值中的字段 ${kr[0]} 的类型不符合要求 ${doc_str};;1`,200);return;
+            }
+          }
+        }
+        if (p.limit !== undefined){
           if (query[pname].length > p.limit){
             ctx.throw(`参数 ${pname} 的值的长度已超过限长：${p.limit} ${doc_str};;1`,200);return;
+          }
+        }
+        if (p.shortest !== undefined){
+          if (query[pname].length < p.shortest){
+            ctx.throw(`参数 ${pname} 的值的长度不满足最短长度要求：${p.shortest} ${doc_str};;1`,200);return;
           }
         }
       }

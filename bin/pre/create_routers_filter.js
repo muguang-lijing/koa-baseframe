@@ -47,7 +47,7 @@ for (let f of fileList){
             i = Number(i);
             let v = ps[i];
             let obj = {};
-            let vr = v.replace(/\s+/g,'，').split('，');
+            let vr = v.replace(/\s+/g,'@@').split('@@');
             let p_type = vr[1].replace(/[{}\s]/g,''); // 获取到参数类型
             if (router_method=="get" && p_type!=="String"){
                 throw new Error(`路由 ${router_name} 的文档第${i+1}个参数的类型配置不符合要求，get方法的参数只能是String类型`);
@@ -161,16 +161,27 @@ for (let f of fileList){
                         } 
                     }
                     obj.enum = enumvs;
-                }else if (/限长\(.+\)/.test(curv)){
-                    if (["string","number","array"].indexOf(obj.type)==-1){
-                        throw new Error(`路由 ${router_name} 的文档第 ${i+1} 个参数的<限长>属性无效，该属性只适用于String或Number类型`);
+                }else if (/必有字段\(.+\)/.test(curv)){
+                    if (obj.type !== "object"){
+                        throw new Error(`路由 ${router_name} 的文档第 ${i+1} 个参数的<必有字段>属性无效，该属性只适用于Object类型`);
+                    }
+                    let defv = curv.split('(')[1].slice(0,-1);
+                    obj.okeys = defv.split(',');
+                }else if (/限长\(.+\)/.test(curv) || /最短\(.+\)/.test(curv)){
+                    let tem_str = curv.slice(0,2);
+                    if (["string","array"].indexOf(obj.type)==-1){
+                        throw new Error(`路由 ${router_name} 的文档第 ${i+1} 个参数的<${tem_str}>属性无效，该属性只适用于String或Number类型`);
                     }
                     let defv = curv.split('(')[1].slice(0,-1);
                     defv = parseInt(defv);
                     if (isNaN(defv)){
-                        throw new Error(`路由 ${router_name} 的文档第 ${i+1} 个参数的<限长>属性的值不合法，不是有效的数字类型`);
+                        throw new Error(`路由 ${router_name} 的文档第 ${i+1} 个参数的<${tem_str}>属性的值不合法，不是有效的数字类型`);
                     }
-                    obj.limit = defv;
+                    if (/限长\(.+\)/.test(curv)){
+                        obj.limit = defv;
+                    }else{
+                        obj.shortest = defv;
+                    }
                 }else{
                     throw new Error(`路由 ${router_name} 的文档第 ${i+1} 个参数的第 ${n-3} 个属性格式不正确，不存在这种属性，目前有７种属性：[${params_attrs}]`);
                 }
