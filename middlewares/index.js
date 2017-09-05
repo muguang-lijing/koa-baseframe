@@ -106,6 +106,8 @@ module.exports = {
           if (query[pname] === undefined){
             ctx.throw(`参数 ${pname} 必传${doc_str};;1`,200);return;
           }
+        }else if (query[pname] === undefined){
+          continue;
         }
         // 检查 default 属性
         if (p.default !== undefined && query[pname] == undefined){

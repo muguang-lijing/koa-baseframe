@@ -46,7 +46,7 @@ router.get('/getuinfo', ctx => {
  * @apiParam {Number} status 状态值 枚举值(34,3,9)
  * @apiParam {String} content 内容字符串　限长(5)
  * @apiParam {Boolean} is_free 是否免费
- * @apiParam {Object} remark 备注信息　可不填　默认值({"name": "lijing", "block": "youm"}) 必有字段(name,block) 对象值类型(string)
+ * @apiParam {Object} remark 备注信息　可不填　默认值({"name": "lijing", "age": 34}) 必有字段(name<string>,age<number>) 对象值类型(string)
  * 
  * @apiSuccess {Object} err 错误信息
  * @apiSuccess {Object} out 成功信息 
