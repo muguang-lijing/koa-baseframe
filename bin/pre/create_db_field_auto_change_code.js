@@ -150,7 +150,7 @@ for (let tb in mdfupds){
         fs.writeFileSync(tb_path,bk1+bks.join('')+updatebk+bk4);
         log_str1 && console.log(log_str1);
     }else{
-        n_of_tableName = tb_str.search(/tableName.*:.*tableName/);
+        n_of_tableName = tb_str.search(/freezeTableName/);
         let bk1 = bk0 + tb_str.slice(n_of_sqeend+1,n_of_tableName);
         let bk2 = `
         hooks: {${updatebk}},\n

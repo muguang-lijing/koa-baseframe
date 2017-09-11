@@ -2,7 +2,7 @@
 koa v2.x 工程级项目架构
 
 ### 基础环境  
-- node > 7.6.x
+- node > 8.3.x
 - 数据库的链接字符串可在配置文件（config/dev.js）中设置，支持 mysql / postgres
 - redis 的配置在　配置文件中设置，其中 redis 是业务逻辑使用的redis, redisSession 是　session 使用的redis
 
