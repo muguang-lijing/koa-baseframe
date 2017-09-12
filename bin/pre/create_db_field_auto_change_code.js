@@ -62,8 +62,8 @@ for (let tb in mdfupds){
     if (tb_str.search(/log.*=.*require/)==-1){
         logbk = `const log = require('../libs/logger').tag('models-${tb}');\n`;
     }
-    if (tb_str.search(/common.*=.*require/)==-1){
-        commonbk = `const common = require('../libs/common');\n`;
+    if (tb_str.search(/auto.*=.*require/)==-1){
+        commonbk = `const auto = require('../libs/auto');\n`;
     }
     bk0 = bk0 + reqbk + logbk + commonbk;
     let updatebk = `
@@ -72,7 +72,7 @@ for (let tb in mdfupds){
                 let t = options.transaction;
                 let trx = t || (await models.sequelize.transaction());
                 try {
-                    await common.udaterfield(tableName,link_fields,ts.dataValues,ts._changed,trx);   // { transaction: trx } 
+                    await auto.udaterfield(tableName,link_fields,ts.dataValues,ts._changed,trx);   // { transaction: trx } 
                     /********************用户代码段开始*********************/
 
                     // TODO 后续逻辑代码

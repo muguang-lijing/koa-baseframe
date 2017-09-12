@@ -12,7 +12,9 @@ const tempdir = path.join('public/res/temp','temp1');
         fs.writeFileSync(tempdir,'hehe');
     }
     setTimeout(()=>{
-        fs.unlinkSync(tempdir);
+        try{
+            fs.unlinkSync(tempdir);
+        }catch(e){}
     },3000);
     await main();
 })().catch(err=>{
