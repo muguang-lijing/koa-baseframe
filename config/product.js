@@ -3,7 +3,7 @@
  *  项目配置文件 ( 测试环境 )
  */
 const Redis = require('ioredis');
-const roles = require('./role_dev');
+const roles = require('./role_product');
 
 const host = "http://aabc.com"; // 系统主机地址
 const host_doc = "http://aabc.com:3333";　// 系统文档主机地址
