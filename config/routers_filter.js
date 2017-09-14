@@ -36,7 +36,8 @@ module.exports = {
                 "type": "array",
                 "name": "codes",
                 "required": true,
-                "vtype": "number"
+                "vtype": "number",
+                "shortest": 1
             },
             {
                 "type": "number",
@@ -63,7 +64,14 @@ module.exports = {
                 "type": "object",
                 "name": "remark",
                 "required": false,
-                "default": {}
+                "default": {
+                    "name": "lijing",
+                    "age": 34
+                },
+                "okeys": [
+                    "name<string>",
+                    "age<number>"
+                ]
             }
         ]
     },

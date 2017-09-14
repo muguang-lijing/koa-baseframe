@@ -12,7 +12,7 @@ module.exports = {
     "port": 5000,
     "timeout": 30 * 20 * 1000,
     "db_uri": "postgres://postgres:pg3110@127.0.0.1:5432/testdb1",
-    "db_log_uri": "mongodb://localhost:27017/koa2_logs",
+    "db_log_uri": "postgres://postgres:pg3110@127.0.0.1:5432/testdb_log",
     "log": {
         "level": "debug"
     },

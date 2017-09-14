@@ -19,7 +19,7 @@ logProcess.stderr.on('data', function (data) {
 var logger = bunyan.createLogger({
   name: "koa2",
   level: "debug", // 默认是 info
-  // stream: logProcess.stdin,
+  stream: logProcess.stdin,
   src: true,  // 日志中是否显示源码位置
   serializers: bunyan.stdSerializers
 });

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 "use strict"
 
+require('./pre');
 const child_process = require('child_process');
 const app = require('../app');
 const http = require('http');

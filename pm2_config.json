@@ -4,7 +4,7 @@
     "watch": true,
     "ignore_watch": [
         "public/res",
-        "config/index.js",
+        "config",
         ".git"
     ],
     "instances": 0,

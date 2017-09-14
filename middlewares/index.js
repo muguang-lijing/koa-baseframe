@@ -28,14 +28,15 @@ module.exports = {
       let reqInfo = {
         duration: duration,
         uid: ctx.uid,
-        req_url: ctx.req.url,
-        req_type: ctx.req.method,
-        req_cookie: ctx.req.headers.cookie,
-        req_user_agent: ctx.req.headers["user-agent"],
-        req_body: ctx.request.body,
-        res_content_length: ctx.response.header["content-length"],
+        url: ctx.req.url,
+        type: ctx.req.method,
+        cookie: ctx.req.headers.cookie,
+        user_agent: ctx.req.headers["user-agent"],
+        content_type: ctx.req.headers["content-type"],
+        body: ctx.request.body,
+        // res_content_length: ctx.response.header["content-length"],
         res_content_type: ctx.response.header["content-type"],
-        res_last_modified: ctx.response.header["last-modified"],
+        // res_last_modified: ctx.response.header["last-modified"],
         res_status_code: ctx.res.statusCode, 
         res_body: ctx.body
       };
