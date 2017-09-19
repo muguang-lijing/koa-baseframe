@@ -37,6 +37,12 @@ fileList.forEach(function(fileName) { // 除了index.js之外的所有文件都�
   if (fileName !== 'index.js' && fileName.indexOf('.js') !== -1) {
       let modelInfo = require('./'+fileName);
       models[modelInfo.tableName] = sequelize.define(modelInfo.tableName,modelInfo.cols,modelInfo.sets);
+      let methods = modelInfo.sets.classMethods;
+      if (methods){
+        for (let k in methods){
+            models[modelInfo.tableName][k] = methods[k];
+        }
+      }
       modelInfo_objs[modelInfo.tableName] = modelInfo;
       logger.trace('defined model', modelInfo.tableName);
   }

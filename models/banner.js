@@ -5,9 +5,10 @@
 const Sequelize = require('sequelize');
 const link_fields = require('../config/field_auto_update').banner || [];
 const log = require('../libs/logger').tag('models-banner');
-const common = require('../libs/common');
+const auto = require('../libs/auto');
 let tableName = 'banner';
 module.exports = {
+    tableName: tableName,
     cols: {
         id: {
             type: Sequelize.STRING(36),
@@ -44,18 +45,14 @@ module.exports = {
     sets: {
         timestamps: false,
         underscored: true,
-        freezeTableName: false,   
+        
         hooks: {
-            setob: async function(){
-
-            },
-
             afterUpdate: async function (ts, options) {
                 const models = require('../models');
                 let t = options.transaction;
                 let trx = t || (await models.sequelize.transaction());
                 try {
-                    await common.udaterfield(tableName,link_fields,ts.dataValues,ts._changed,trx);   // { transaction: trx } 
+                    await auto.udaterfield(tableName,link_fields,ts.dataValues,ts._changed,trx);   // { transaction: trx } 
                     /********************用户代码段开始*********************/
 
                     // TODO 后续逻辑代码
@@ -70,6 +67,18 @@ module.exports = {
                 }
             }
         },
+
+        freezeTableName: false,   
+        classMethods: {
+            // 给某个字段增加值，field参数可以直接是字段名，也可以是对象，如: {name: 3, age: 5}
+            // obj 是个对象，里面有两个可选参数，必填其一，优先使用row。{row -> 某行实例,where -> 查询条件}
+           add_xx_num: async function () {
+               await this.create({
+                img_url: 'jisdfjid======'
+               });
+               return "123";
+           }
+       },
 
         tableName: tableName
     }

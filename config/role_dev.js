@@ -8,30 +8,14 @@ const public_api = { // 所有角色都可以访问的api
     cons: [
         {
             method: ['GET', 'POST'],
-            include: /^\/(favicon\.ico|activity|css|dist|fonts|img|js|res|src|text|backstage|zhima|test|login|tencent|mp-wx|pay|wxshare).*/,
+            include: /^\/(favicon\.ico|static|test).*/,
             exclude: [
                 '/login/resetCategorys'
             ]
         },
         {
             method: ['POST','GET'],
-            include: [
-                '/',
-                '/skill/cb',
-                '/skill/info',
-                '/skill/extra_info',
-                '/skill/skill_buyers',
-                '/act/share_act/info',
-                '/act/share_act_buyers',
-                '/act/interests_act/info',
-                '/act/interests_act_buyers',
-                '/xadmin/find_users',
-                '/user/my_skills',
-                '/user/info',
-                '/home/usrs_by_random',
-                '/xadmin/admin_login',
-                '/xadmin/admin_verify'
-            ]
+            include: /^\/(other|log).*/
         }
     ]
 };

@@ -6,6 +6,7 @@ const log = require('../libs/logger').tag('test');
 const config = require('../config');
 const common = require('../libs/common');
 const utils = require('../libs/utils');
+const models = require('../models');
 const util = require('util');
 const redis = config.redis;
 
@@ -156,6 +157,22 @@ router.get('/redisTest', async ctx => {
         err: "",
         out: { pid: process.pid, reout }
     };
+});
+
+router.post('/testcros', async (ctx,next) => {
+    let rbody = ctx.request.body;
+    ctx.body = {
+        err: { code: 0},
+        out: {
+            data: '测试成功'
+        }
+    };
+});
+
+
+router.get('/create_banner', async (ctx,next) => {
+    let query = ctx.query;
+    await models.banner.js
 });
 
 

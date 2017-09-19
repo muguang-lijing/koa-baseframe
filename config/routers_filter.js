@@ -4,6 +4,127 @@
  * 路由参数过滤器的配置文件
  */
 module.exports = {
+    "/log/findAll": {
+        "apiName": "log_find",
+        "apiGroup": "Log",
+        "apiParams": [
+            {
+                "type": "number",
+                "name": "page",
+                "required": false
+            },
+            {
+                "type": "number",
+                "name": "len",
+                "required": false
+            },
+            {
+                "type": "string",
+                "name": "tag",
+                "required": false
+            },
+            {
+                "type": "number",
+                "name": "level",
+                "required": false
+            },
+            {
+                "type": "string",
+                "name": "msg",
+                "required": false
+            },
+            {
+                "type": "number",
+                "name": "start_tm",
+                "required": true
+            },
+            {
+                "type": "number",
+                "name": "end_tm",
+                "required": true
+            }
+        ]
+    },
+    "/log/findReq": {
+        "apiName": "log_findReq",
+        "apiGroup": "Log",
+        "apiParams": [
+            {
+                "type": "number",
+                "name": "page",
+                "required": false
+            },
+            {
+                "type": "number",
+                "name": "len",
+                "required": false
+            },
+            {
+                "type": "string",
+                "name": "reqId",
+                "required": false
+            },
+            {
+                "type": "string",
+                "name": "uid",
+                "required": false
+            },
+            {
+                "type": "string",
+                "name": "url",
+                "required": false
+            },
+            {
+                "type": "string",
+                "name": "type",
+                "required": false,
+                "enum": [
+                    "GET",
+                    "POST"
+                ]
+            },
+            {
+                "type": "string",
+                "name": "cookie",
+                "required": false
+            },
+            {
+                "type": "string",
+                "name": "user_agent",
+                "required": false
+            },
+            {
+                "type": "string",
+                "name": "content_type",
+                "required": false
+            },
+            {
+                "type": "string",
+                "name": "res_content_type",
+                "required": false
+            },
+            {
+                "type": "number",
+                "name": "res_status_code",
+                "required": false
+            },
+            {
+                "type": "string",
+                "name": "res_body",
+                "required": false
+            },
+            {
+                "type": "number",
+                "name": "start_tm",
+                "required": true
+            },
+            {
+                "type": "number",
+                "name": "end_tm",
+                "required": true
+            }
+        ]
+    },
     "/other/upload_base64": {
         "apiName": "uploadBase64",
         "apiGroup": "Other",

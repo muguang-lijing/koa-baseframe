@@ -34,7 +34,7 @@ koa v2.x 工程级项目架构
 - 进到项目根目录，执行命令以查看日志 `tail -200f log.txt | bunyan -L` ，次命令需要linux命令行，window下的linux shell模拟器也可以  
 - 过滤特定等级日志 `tail -200f log.txt | bunyan -l 40` ， 只看level高于40的日志记录  
 - 具体参考：[https://npm.taobao.org/package/bunyan#log-method-api](https://npm.taobao.org/package/bunyan#log-method-api)
-- 当在生产环境下启动项目时，日志会打印到日志数据库中，日志数据库的配置在配置文件中　db_log_uri 属性，配套有个日志数据库的查询系统，git地址：[https://npm.taobao.org/package/bunyan#log-method-api]
+- 当在生产环境下启动项目时，日志会打印到日志数据库中，日志数据库的配置在配置文件中　db_log_uri 属性，配套有个日志数据库的查询系统，git地址：[https://npm.taobao.org/package/bunyan#log-method-api]，日志查询通过路由　`/static/log.html` 来访问
 
 ### 接口文档  
 - 接口文档采用 [apidoc](http://apidocjs.com/) 模块根据源码注释自动生成  
@@ -82,6 +82,7 @@ koa v2.x 工程级项目架构
 ### 需要解决的问题  
 
 - 为什么有些错误try catch 无法捕获？　doing
+- TODO doing 生成模型钩子代码需要重写
 
 ### 注意项  
  - 若安装 pg-native 包，那么操作系统需要安装 libpq-dev，如：　sudo apt install libpq-dev

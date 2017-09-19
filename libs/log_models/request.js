@@ -23,7 +23,7 @@ module.exports = {
             comment: '请求的路由'
         },
         type: {
-            type: Sequelize.CHAR(4),
+            type: Sequelize.STRING(4),
             allowNull: false,
             comment: '请求类型'
         },

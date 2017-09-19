@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <script type="text/javascript" src="js/jquery_1.10.2.min.js"></script>
+</head>
+<body>
+    <!-- <form method="post" action="/test/savefile" enctype="multipart/form-data">
+        <input type="file" name="pic" />
+        <input type="submit" value="提交" />
+    </form> -->
+    <button onclick="getdata();">测试</button>
+</body>
+<script>
+    function getdata(){
+        console.log("ready to post");
+        let dt = {
+            "name": "lijing",
+            "age": 12
+        };
+        $.ajax({
+            url: 'http://127.0.0.1:5045/test/testcros',
+            method: 'POST',
+            data: JSON.stringify(dt),
+            success: function (data){
+                console.log(data);
+            }
+        })
+    }
+
+    function getdata1(){
+        console.log("ready to post");
+        let dt = {
+            "start_tm": 100,
+            "end_tm": 1505810491
+        }
+        $.ajax({
+            url: 'http://127.0.0.1:5045/log/findAll',
+            method: 'POST',
+            data: JSON.stringify(dt),
+            success: function (data){
+                console.log(data);
+            }
+        })
+    }
+</script>
+</html>

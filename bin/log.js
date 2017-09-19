@@ -13,17 +13,36 @@ process.stdin.on('end', () => {
 });
 
 let log_table_name = 'datas';
+let blood = 25; // 进程的血量，当血量用完时进程就会死掉
+setInterval(()=>{
+    blood -= 7;
+    if (blood > 0){
+        // console.log("============log process alive: "+blood);
+    }else{
+        // console.log("============log process die");
+        process.exit(0);
+    }
+},7000);
 
 let isPro = utils.isProduction();
 
 process.stdin.on('data',async thunk => {
+    if (~thunk.indexOf('##ok##')){
+        // console.log("=========== process log 补血成功，进程号: "+process.pid);
+        blood += 7;
+        return;
+    }
      if (isPro){ 
         let outsr = '['+thunk.replace(/\n/g,',').slice(0,-1)+']';
         let objs = JSON.parse(outsr);
         for (let o of objs){
             o.time = parseInt(new Date(o.time).valueOf()/1000);
             if (o.msg == "请求信息"){
+                console.log("request info: \n"+JSON.stringify(o,null,4));
                 o.id = o.reqId;
+                if (typeof o.res_body !== "string"){
+                    o.res_body = JSON.stringify(o.res_body);
+                }
                 await log_models.request.create(o);
             }else{
                 o.id = uuid.v1();
