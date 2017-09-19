@@ -1,7 +1,6 @@
 "use strict"
 
 const config = require('../config');
-const utils = require('../libs/utils');
 const rp = require('request-promise');
 const log_models = require('../libs/log_models');
 const uuid = require('uuid');
@@ -24,37 +23,31 @@ setInterval(()=>{
     }
 },7000);
 
-let isPro = utils.isProduction();
-
 process.stdin.on('data',async thunk => {
     if (~thunk.indexOf('##ok##')){
         // console.log("=========== process log 补血成功，进程号: "+process.pid);
         blood += 7;
         return;
     }
-     if (isPro){ 
-        let outsr = '['+thunk.replace(/\n/g,',').slice(0,-1)+']';
-        let objs = JSON.parse(outsr);
-        for (let o of objs){
-            o.time = parseInt(new Date(o.time).valueOf()/1000);
-            if (o.msg == "请求信息"){
-                console.log("request info: \n"+JSON.stringify(o,null,4));
-                o.id = o.reqId;
-                if (typeof o.res_body !== "string"){
-                    o.res_body = JSON.stringify(o.res_body);
-                }
-                await log_models.request.create(o);
-            }else{
-                o.id = uuid.v1();
-                if (o.data && typeof o.data!=="object"){
-                    o.data = {info: o.data};
-                }
-                await log_models.log.create(o);
+    let outsr = '['+thunk.replace(/\n/g,',').slice(0,-1)+']';
+    let objs = JSON.parse(outsr);
+    for (let o of objs){
+        o.time = parseInt(new Date(o.time).valueOf()/1000);
+        if (o.msg == "请求信息"){
+            // console.log("request info: \n"+JSON.stringify(o,null,4));
+            o.id = o.reqId;
+            if (typeof o.res_body !== "string"){
+                o.res_body = JSON.stringify(o.res_body);
             }
-            // logFileter(o);
+            await log_models.request.create(o);
+        }else{
+            o.id = uuid.v1();
+            if (o.data && typeof o.data!=="object"){
+                o.data = {info: o.data};
+            }
+            await log_models.log.create(o);
         }
-    }else{
-        console.log(thunk);
+        // logFileter(o);
     }
 });
 

@@ -49,6 +49,19 @@ module.exports = {
       });
     });
   },
+  write_2_stream: function(stream ,data) {
+    return new Promise(resolve=>{
+      if (!stream.write(data)) {
+        stream.once('drain', ()=>{
+          resolve();
+        });
+      } else {
+        process.nextTick(()=>{
+          resolve();
+        });
+      }
+    });
+  },
   delay: function (time){ // 延迟指定毫秒
     return new Promise(resolve=>{
       setTimeout(()=>{
