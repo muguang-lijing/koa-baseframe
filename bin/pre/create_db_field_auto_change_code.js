@@ -55,7 +55,7 @@ for (let tb in mdfupds){
     // console.log("file content: \n"+tb_str);
     if (~tb_str.search(/link_fields.*=.*require/)){ continue; }
     let reqbk = `const link_fields = require('../config/field_auto_update').${tb} || [];\n`;
-    let logbk = '',commonbk = '';
+    let logbk = '',commonbk = '', utilbk = '';
     let n_of_sqe = tb_str.search(/Sequelize.*=.*require/);
     let n_of_sqeend = tb_str.indexOf('\n',n_of_sqe);
     let bk0 = tb_str.slice(0,n_of_sqeend+1);
@@ -65,7 +65,10 @@ for (let tb in mdfupds){
     if (tb_str.search(/auto.*=.*require/)==-1){
         commonbk = `const auto = require('../libs/auto');\n`;
     }
-    bk0 = bk0 + reqbk + logbk + commonbk;
+    if (tb_str.search(/util.*=.*require/)==-1){
+        utilbk = `const util = require('util');\n`;
+    }
+    bk0 = bk0 + reqbk + logbk + commonbk + utilbk;
     let updatebk = `
             afterUpdate: async function (ts, options) {
                 const models = require('../models');
@@ -82,7 +85,7 @@ for (let tb in mdfupds){
                     t || (await trx.commit());
                 } catch (e) {
                     t || (await trx.rollback());
-                    log.error({data: e},'事务执行失败');
+                    log.error({data: util.format('%o',e)},'事务执行失败');
                     throw new Error('Error: 事务执行失败:' + JSON.stringify(e));
                 }
             }

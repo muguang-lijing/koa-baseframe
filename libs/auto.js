@@ -9,7 +9,7 @@ async function udaterfield(tableName,link_fields,new_obj,change_obj,trx){
     let idfname = 'id_f_'+tableName;
     let set_tbs = {};
     for (let field in link_fields){
-        tables = link_fields[field];
+        let tables = link_fields[field];
         if (change_obj[field]){
             for (let t of tables){
                 if (set_tbs[t]){
