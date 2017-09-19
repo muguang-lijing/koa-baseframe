@@ -9,7 +9,7 @@ const host = "http://aabc.com"; // 系统主机地址
 const host_doc = "http://aabc.com:3333";　// 系统文档主机地址
 
 module.exports = {
-    "port": 5001,
+    "port": 5002,
     "timeout": 30 * 20 * 1000,
     "db_uri": "postgres://postgres:pg3110@127.0.0.1:5432/testdb1",
     "db_log_uri": "postgres://postgres:pg3110@127.0.0.1:5432/testdb_log",
