@@ -7,7 +7,7 @@ const app = require('../app');
 const http = require('http');
 const log = require('../libs/logger').tag('app');
 const config = require('../config');
-const util = require('../libs/utils');
+const utils = require('../libs/utils');
 const models = require('../models');
 
 (async ()=>{
@@ -18,7 +18,7 @@ const models = require('../models');
 
   let server = http.createServer(app.callback());
 
-  if (util.isProduction()){
+  if (utils.isProduction()){
     // TODO 生产环境下需要的操作
   }
 
