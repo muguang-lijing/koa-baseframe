@@ -51,7 +51,7 @@ async function saveFile(file,option={}) {
         aim_path = path.join(utils.baseDir(), 'public', access_path);
     }
     await utils.pipeSync(fs.createReadStream(file.path),fs.createWriteStream(aim_path));
-    return { access_path, aim_path, access_full_path: path.join(config.host,access_path) };
+    return { access_path, aim_path, access_full_path: config.host+access_path };
 }
 
 module.exports = {
