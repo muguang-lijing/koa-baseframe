@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>日志查询</title>
+        <meta charset="utf-8">
+    </head>
+    <link rel="stylesheet" href="//unpkg.com/iview/dist/styles/iview.css">
+    <link rel="stylesheet" href="./index.css">
+    <body>
+        <div id = "app">
+            <m></m>
+        </div>
+        <template id='m'>
+                <Tabs>
+                    <Tab-Pane label="普通日志" name="tabname">
+                            <div class="layout-content">
+                                    <Dropdown  placement="bottom-start" trigger="primary" :visible="visible" style="margin-bottom:5px;width:97.8%;">
+                                            <a href="javascript:void(0)" @click="handleOpen">
+                                                    ★
+                                            </a>
+                                            <DropdownMenu slot="list">
+                                                <div style="text-align: right; margin:5px 20px;">
+                                                    <table>
+                                                        <tr>
+                                                            <td>Tag: </td>
+                                                            <td><i-Input v-model="searone.tag" placeholder="请输入..." style="width: 300px"></i-Input></td>
+                                                            <td>Level: </td>
+                                                            <td>
+                                                                <i-Select v-model="searone.level" style="width:200px">
+                                                                        <i-Option v-for="item in searone.levellsit" :value="item.value" :key="item.value">{{ item.label }}</i-Option>
+                                                                </i-Select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Msg: </td>
+                                                            <td><i-Input v-model="searone.msg" placeholder="请输入..." style="width: 300px"></i-Input></td>
+                                                            <td>Time: </td>
+                                                            <td>
+                                                                <Date-Picker v-model="searone.time" type="daterange"  placement="bottom-end"  placeholder="选择日期" style="width: 200px"></Date-Picker>
+                                                            </td>
+                                                            <td>
+                                                                
+                                                            </td>
+                                                        </tr> 
+                                                        
+                                                    </table> 
+                                                    <i-Button type="primary" size = 'small' @click="get_one(0)">搜索</i-Button>
+                                                </div>
+                                            </DropdownMenu>
+                                    </Dropdown>
+                                    <div class = "content">
+                                        <i-Table  :height ="tabh" :no-data-text="no_data" size= "small" :columns="columns" :data="data"></i-Table>     
+                                    </div>  
+                                    <Page style ='margin-top:20px' :total="100000" size="small"  @on-change = "get_one"></Page>
+                            </div>
+                    </Tab-Pane>
+                    <Tab-Pane label="请求日志" name="name2" >
+                            <div class="layout-content">
+                                    <Dropdown  placement="bottom-start" trigger="primary" :visible="visible2" style="margin-bottom:5px;width:97.8%;">
+                                            <a href="javascript:void(0)" @click="handleOpen2">
+                                                    ★
+                                            </a>
+                                            <DropdownMenu slot="list">
+                                                <div style="text-align: center; margin:5px 20px;">
+                                                    <table>
+                                                        <tr>
+                                                            <td>reqId: </td>
+                                                            <td><i-Input v-model="seartwo.reqId" placeholder="请输入..." style="width: 100px"></i-Input></td>
+                                                            <td>uid: </td>
+                                                            <td>
+                                                                <i-Input v-model="seartwo.uid" placeholder="请输入..." style="width: 100px"></i-Input>
+                                                            </td>
+                                                            <td>cookie: </td>
+                                                            <td>
+                                                                <i-Input v-model="seartwo.cookie" placeholder="请输入..." style="width: 100px"></i-Input>
+                                                            </td>
+                                                            <td>user_agent: </td>
+                                                            <td>
+                                                                <i-Input v-model="seartwo.user_agent" placeholder="请输入..." style="width: 200px"></i-Input>
+                                                            </td>
+                                                            <td>type:</td>
+                                                            <td>
+                                                                <i-Select v-model="seartwo.type" style="width:100px">
+                                                                        <i-Option v-for="item in seartwo.typelist" :value="item.value" :key="item.value">{{ item.label }}</i-Option>
+                                                                </i-Select>
+                                                            </td>   
+                                                        </tr>
+                                                        <tr>
+                                                            <td>content_type: </td>
+                                                            <td><i-Input v-model="seartwo.content_type" placeholder="请输入..." style="width: 100px"></i-Input></td>
+                                                            <td>res_content_type: </td>
+                                                            <td><i-Input v-model="seartwo.res_content_type" placeholder="请输入..." style="width: 100px"></i-Input></td>
+                                                            <td>res_body: </td>
+                                                            <td><i-Input v-model="seartwo.res_body" placeholder="请输入..." style="width: 100px"></i-Input></td>
+                                                            <td>time: </td>
+                                                            <td>
+                                                                <Date-Picker v-model="seartwo.time" type="daterange"  placement="bottom-end"  placeholder="选择日期" style="width: 200px"></Date-Picker>
+                                                            </td>
+                                                            <td>res_status_code: </td>
+                                                            <td>
+                                                                <i-Input v-model="seartwo.res_status_code" placeholder="请输入..." style="width: 100px"></i-Input>
+                                                            </td>
+                                                        </tr> 
+                                                        <tr>
+                                                                <td>url: </td>
+                                                                <td><i-Input v-model="seartwo.url" placeholder="请输入..." style="width: 100px"></i-Input></td>
+
+                                                            </tr> 
+                                                    </table> 
+                                                    <div style = 'text-align:right'>
+                                                    <i-Button type="primary" size = 'small' @click="get_two(0)">搜索</i-Button>
+                                                    </div>
+                                                </div>
+                                            </DropdownMenu>
+                                    </Dropdown>
+                                    <div class = "content">
+                                        <i-Table ellipsis='true' :height ="tabh" :no-data-text="no_data2" size= "small" :columns="columns2" :data="data2"></i-Table>     
+                                    </div>  
+                                    <Page style ='margin-top:20px' :total="100000" size="small"  @on-change = "get_two"></Page>
+                            </div>
+                    </Tab-Pane>
+                </Tabs>
+        </template>
+        <template id='w'>
+            <div >
+                <Row class="expand-row" >
+                    <Col span="24">
+                        
+                        <span class="expand-key">详情：</span>
+                        <pre>{{JSON.stringify(row,0,4)}}</pre>
+                        </div>  
+                    </Col>
+                </Row>
+            </div>
+        </template>
+    </body>
+</html>
+<script type="text/javascript" src="//vuejs.org/js/vue.min.js"></script>
+<script type="text/javascript" src="//unpkg.com/iview/dist/iview.min.js"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="moment.min.js"></script>
+<script type="text/javascript" src="ajax.js"></script>
+<script type="text/javascript" src="index.js" ></script> 
+
+
+

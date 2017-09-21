@@ -13,7 +13,7 @@ module.exports = {
             comment: 'reqId'
         },
         uid: {
-            type: Sequelize.CHAR(36),
+            type: Sequelize.STRING(36),
             defaultValue: '',
             comment: '请求用户id'
         },

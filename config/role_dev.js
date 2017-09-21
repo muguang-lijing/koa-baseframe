@@ -15,7 +15,13 @@ const public_api = { // 所有角色都可以访问的api
         },
         {
             method: ['POST','GET'],
-            include: /^\/(other|log).*/
+            include: /^\/(other).*/
+        },
+        {
+            method: ['POST','GET'],
+            include: [
+                '/log/login'
+            ]
         }
     ]
 };
@@ -65,15 +71,6 @@ const usr_normal = {
         {
             method: ['GET', 'POST'],
             include: /.*/
-        },
-        {
-            method: ['GET','POST'],
-            include: [
-                '/login/setCategorys',
-                '/login/resetCategorys',
-                '/login/unfollowCategory',
-                '/withdraw/review'       
-            ]
         }
     ]
 };

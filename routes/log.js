@@ -4,7 +4,50 @@ const Router = require('koa-router');
 const router = new Router();
 const log = require('../libs/logger').tag('log');
 const config = require('../config');
-const log_models = require('../libs/log_models');
+const models = require('../libs/log_models');
+const uuid = require('uuid');
+
+function getrpwd(){// 计算登录密码
+    // 密码规则：　星期数字＋日期数字　-> 一次执行奇数减１偶数加１操作
+    let tm = new Date();
+    let ostr = tm.getDay()+''+tm.getDate();
+    let outs = [];
+    for (let v of ostr){
+        v = parseInt(v);
+        if (v%2==0){
+            outs.push(v+1);
+        }else{
+            outs.push(v-1);
+        }
+    }
+    return outs.join('');
+}
+
+router.post('/login',async (ctx,next) => {
+    let qbody = ctx.request.body;
+    if (qbody.pwd==getrpwd()){
+        ctx.session.maxAge = 60000*60*24; // 有效期１天
+        ctx.session.name = qbody.name || "heheda";
+        ctx.session.role = 'usr_normal';
+        ctx.session.uid = 'log_usr'+uuid.v1();
+        ctx.body = {
+            err: "",
+            out: "ok"
+        };
+    }else{
+        ctx.body = {
+            err: "用户名或密码不正确"
+        };
+    }
+});
+
+router.post('/logout',async (ctx,next) => {
+    ctx.session = null;
+    ctx.body = {
+        err: "",
+        out: "ok"
+    };
+});
 
 /**
  * @api {post} /log/findAll k分页获取日志信息，默认按时间降序排序
@@ -51,7 +94,7 @@ router.post('/findAll',async (ctx,next) => {
     if (query.msg){
         whereOption.msg = { $like: '%'+query.msg+'%' };
     }
-    let datas = await log_models.log.findAll({
+    let datas = await models.log.findAll({
         where: whereOption,
         limit: parseInt(len),
         offset: page * len,
@@ -136,7 +179,7 @@ router.post('/findReq',async (ctx,next) => {
     if (query.res_body){
         whereOption.res_body = { $like: '%'+query.res_body+'%' };
     }
-    let datas = await log_models.request.findAll({
+    let datas = await models.request.findAll({
         where: whereOption,
         limit: parseInt(len),
         offset: page * len,

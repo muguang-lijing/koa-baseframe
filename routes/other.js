@@ -58,4 +58,33 @@ router.post('/upload_base64', async ctx => {
     };
 });
 
+/**
+ * @api {get} /other/is_login 判断是否登录  
+ * @apiDescription 作者：李静  
+ * 
+ * @apiVersion 0.0.1
+ * @apiName is_login
+ * @apiGroup Other
+ * 
+ * @apiSuccess {Object} err 错误信息
+ * @apiSuccess {Object} out 成功信息
+ * @apiSuccessExample {json} 成功时返回的结果：
+ * {
+ * 	err: { code: 0 },
+ * 	out: {
+ * 		result: false, // 若没有登录是false，若登录则是角色名称
+ * 	}
+ * }
+ */
+router.get('/is_login', async (ctx,next) => {
+    let result = false;
+    if (ctx.session && ctx.session.uid){
+        result = ctx.session.role;
+    }
+    ctx.body = {
+        err: { code: 0},
+        out: { result }
+    };
+});
+
 module.exports = router;
