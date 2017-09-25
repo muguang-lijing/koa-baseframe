@@ -75,7 +75,7 @@ for (let tb in mdfupds){
                 let t = options.transaction;
                 let trx = t || (await models.sequelize.transaction());
                 try {
-                    await auto.udaterfield(tableName,link_fields,ts.dataValues,ts._changed,trx);   // { transaction: trx } 
+                    await auto.udaterfield(models,tableName,link_fields,ts.dataValues,ts._changed,trx);   // { transaction: trx } 
                     /********************用户代码段开始*********************/
 
                     // TODO 后续逻辑代码

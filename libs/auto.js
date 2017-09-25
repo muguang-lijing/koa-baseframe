@@ -4,7 +4,7 @@
  */
 const log = require('../libs/logger').tag('auto');
 
-async function udaterfield(tableName,link_fields,new_obj,change_obj,trx){
+async function udaterfield(models,tableName,link_fields,new_obj,change_obj,trx){
     let ts_id = new_obj.id;
     let idfname = 'id_f_'+tableName;
     let set_tbs = {};
