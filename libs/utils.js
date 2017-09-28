@@ -86,7 +86,7 @@ module.exports = {
     });
     return cb ? "" : promise;
   },
-  down2dir,
+  down2dir,code_replace_zs,code_unreplace_zs,code_unreplace_str,find_left_flag,code_remove_zs,
   pipeSync: function (rstream,wstream){  // pipe 的同步方法
     return new Promise((resolve)=>{
       let flag = 0;
@@ -199,30 +199,123 @@ function div(a, b) {
  * @param {string} dir 下载目录路径（绝对路径） 
  */
 function down2dir(url,dir,tm){
-    let trytm = tm || 0;
-    return new Promise(resolve=>{
-      let http = require('http');
-      if (url.slice(0,5)=='https'){
-        http = require('https');
-      }
-      let clientReq = http.get(url,res=>{
-        let fileName = path.basename(url);
-        let aimpath = path.join(dir,fileName);
-        let wstream = fs.createWriteStream(aimpath);
-        wstream.on('close',()=>{
-          resolve('close');
-        });
-        res.pipe(wstream);
+  let trytm = tm || 0;
+  return new Promise(resolve=>{
+    let http = require('http');
+    if (url.slice(0,5)=='https'){
+      http = require('https');
+    }
+    let clientReq = http.get(url,res=>{
+      let fileName = path.basename(url);
+      let aimpath = path.join(dir,fileName);
+      let wstream = fs.createWriteStream(aimpath);
+      wstream.on('close',()=>{
+        resolve('close');
       });
-      clientReq.on('aborted',()=>{
-        resolve('aborted');
-      });
-      clientReq.setTimeout(30000, ()=>{
-        if (trytm<3){
-          download2dir(url,dir,trytm+1);
-        }else{
-          resolve('timeout');
-        }
-      });
+      res.pipe(wstream);
     });
+    clientReq.on('aborted',()=>{
+      resolve('aborted');
+    });
+    clientReq.setTimeout(30000, ()=>{
+      if (trytm<3){
+        download2dir(url,dir,trytm+1);
+      }else{
+        resolve('timeout');
+      }
+    });
+  });
+}
+
+/**
+ * 将一个代码字符串中的注释替换掉
+ * 返回替换后的字符串和一个替换映射对象（方便替换回去）
+ * @param {string} str 原始字符串 
+ */
+function code_replace_zs(str){
+  let zss = str.match(/(\/\/.*|\/\*[\s\S]*?\*\/)/g);
+  let out_map = {};
+  for (let k in zss){
+    let flag_str = '##zs'+k+'##';
+    str = str.replace(zss[k],flag_str);
+    out_map[flag_str] = zss[k];
   }
+  return {str,out_map}
+}
+
+/**
+ * 移除代码字符串中的注释替换块
+ * @param {string} str 原始字符串 
+ */
+function code_remove_zs(str){
+  let zss = str.match(/##zs[0-9]*?##/g);
+  for (let v of zss){
+    str = str.replace(v,'');
+  }
+  return str;
+}
+
+/**
+ * 将一个代码字符串中的字符串替换掉
+ * 返回替换后的字符串和一个替换映射对象（方便替换回去）
+ * @param {string} str 原始字符串 
+ */
+function code_replace_str(str){
+  let zss = str.match(/('[\s\S]*?'|"[\s\S]*?"|`[\s\S]*?`)/g);
+  let out_map = {};
+  for (let k in zss){
+    let flag_str = '##zfc'+k+'##';
+    str = str.replace(zss[k],flag_str);
+    out_map[flag_str] = zss[k];
+  }
+  return {str,out_map}
+}
+
+/**
+ * 将一个代码字符串中的注释替换符换回原始字符串，和　code_replace_zs　起相反作用
+ * 返回替换后的字符串
+ * @param {object} obj　对象：{str,map_obj}，包括原始字符串和映射对象
+ */
+function code_unreplace_zs(obj){
+  if (!obj.map_obj){ obj.map_obj={}; }
+  let {str,map_obj} = obj;
+  let zss = str.match(/##zs[0-9]*?##/g);
+  for (let v of zss){
+    str = str.replace(v,map_obj[v]);
+  }
+  return str;
+}
+
+/**
+ * 将一个代码字符串中的字符串替换符换回原始字符串，和code_replace_str起相反作用
+ * 返回替换后的字符串
+ * @param {object} obj　对象：{str,map_obj}，包括原始字符串和映射对象
+ */
+function code_unreplace_str(obj){
+  if (!obj.map_obj){ obj.map_obj={}; }
+  let {str,map_obj} = obj;
+  let zss = str.match(/##zfc[0-9]*?##/g);
+  for (let v of zss){
+    str = str.replace(v,map_obj[v]);
+  }
+  return str;
+}
+
+/**
+ * 找出对称标记对的右标记位置，返回对称的右标记在原始字符串中的位置
+ * 用法如：find_left_flag(str,['{','}'],23);
+ * @param {string} str 原始字符串 
+ * @param {array} flags 标记对数组或字符串，如：['(',')']　OR '()' 
+ * @param {number} left_n 左标记符在原始字符串中的位置 
+ */
+function find_left_flag(str,flags,left_n){
+  let flag = 1,str_len = str.length;
+  for (var i=left_n+1; i<str_len; i++){
+      if (str[i]==flags[0]){ flag++; }
+      if (str[i]==flags[1]){ flag--; }
+      if (flag===0){
+          break;
+      }
+  }
+  return i;
+}
