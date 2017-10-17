@@ -234,13 +234,15 @@ function down2dir(url,dir,tm){
  */
 function code_replace_zs(str){
   let zss = str.match(/(\/\/.*|\/\*[\s\S]*?\*\/)/g);
-  let out_map = {};
-  for (let k in zss){
-    let flag_str = '##zs'+k+'##';
-    str = str.replace(zss[k],flag_str);
-    out_map[flag_str] = zss[k];
+  let map_obj = {};
+  if (zss && zss.length){
+    for (let k in zss){
+      let flag_str = '##zs'+k+'##';
+      str = str.replace(zss[k],flag_str);
+      map_obj[flag_str] = zss[k];
+    }
   }
-  return {str,out_map}
+  return {str,map_obj}
 }
 
 /**
@@ -249,8 +251,10 @@ function code_replace_zs(str){
  */
 function code_remove_zs(str){
   let zss = str.match(/##zs[0-9]*?##/g);
-  for (let v of zss){
-    str = str.replace(v,'');
+  if (zss && zss.length){
+    for (let v of zss){
+      str = str.replace(v,'');
+    }
   }
   return str;
 }
@@ -262,13 +266,15 @@ function code_remove_zs(str){
  */
 function code_replace_str(str){
   let zss = str.match(/('[\s\S]*?'|"[\s\S]*?"|`[\s\S]*?`)/g);
-  let out_map = {};
-  for (let k in zss){
-    let flag_str = '##zfc'+k+'##';
-    str = str.replace(zss[k],flag_str);
-    out_map[flag_str] = zss[k];
+  let map_obj = {};
+  if (zss && zss.length){
+    for (let k in zss){
+      let flag_str = '##zfc'+k+'##';
+      str = str.replace(zss[k],flag_str);
+      map_obj[flag_str] = zss[k];
+    }
   }
-  return {str,out_map}
+  return {str,map_obj}
 }
 
 /**
@@ -280,8 +286,10 @@ function code_unreplace_zs(obj){
   if (!obj.map_obj){ obj.map_obj={}; }
   let {str,map_obj} = obj;
   let zss = str.match(/##zs[0-9]*?##/g);
-  for (let v of zss){
-    str = str.replace(v,map_obj[v]);
+  if (zss && zss.length){
+    for (let v of zss){
+      str = str.replace(v,map_obj[v]);
+    }
   }
   return str;
 }
@@ -295,8 +303,10 @@ function code_unreplace_str(obj){
   if (!obj.map_obj){ obj.map_obj={}; }
   let {str,map_obj} = obj;
   let zss = str.match(/##zfc[0-9]*?##/g);
-  for (let v of zss){
-    str = str.replace(v,map_obj[v]);
+  if (zss && zss.length){
+    for (let v of zss){
+      str = str.replace(v,map_obj[v]);
+    }
   }
   return str;
 }
