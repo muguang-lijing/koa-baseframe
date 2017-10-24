@@ -6,9 +6,9 @@ config/index.js
 config/routers_filter.js
 config/field_auto_update.js
 log.txt
-public/static/imgs/
+public/static/imgs/*
 !public/static/imgs/.gitexist
-public/res/temp/
+public/res/temp/*
 !public/res/temp/.gitexist
 
 # User-specific files
