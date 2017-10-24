@@ -13,7 +13,7 @@ koa v2.x 工程级项目架构
 - redis 的配置在 基础配置文件 中配置
 
 ### 运行  
-- 进入项目目录 运行 `npm install`  
+- 进入项目目录 运行 `npm install`（安装过程中若提示缺少 libpq-dev ，则需要在操作系统中安装，Ubuntu示例：`sudo apt install libpq-dev`）  
 - 同步数据库，包括日志数据库（新环境第一次运行项目） 运行 `npm run initDb` 
 - 直接本地运行：`npm start`
 - pm2运行：首先全局安装pm２, 然后运行 `npm run start_pm2` 或 `pm2 start pm2_config.json`
