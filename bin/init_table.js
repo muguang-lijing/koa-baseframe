@@ -36,6 +36,7 @@ setTimeout(() => {
         }else if (table == 'the_log_db'){
             const models = require('../libs/log_models');
             await sync_all_table(models);
+            console.log("日志数据库表同步成功！");
         }else{
             await sync_one_table();
         }
