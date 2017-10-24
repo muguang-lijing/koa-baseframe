@@ -1,6 +1,8 @@
 'use strict';
 /**
- * 同步个别表
+ * 同步表（包括系统表和日志表），在终端如下输入：
+ * node bin/init_table all/table_name -> 同步系统表
+ * node bin/init_table the_log_db ->　同步日志表
  */
 
 let args = process.argv.splice(2);
@@ -16,6 +18,8 @@ const Table = require('cli-table');
 const _ = require('lodash');
 let table = args[0].toLocaleLowerCase();
 let minfo = _.cloneDeep(models.modelInfos);
+//临时文件作备份用，同步完系统自动删除
+let temp_file = path.dirname(__dirname) + "/public/res/temp/.sync_db.json";
 
 setTimeout(() => {
     (async () => {
@@ -72,7 +76,7 @@ async function sync_one_table() {
         if (ret == "second") {
             //第二步，备份线上数据，为了防止本地模型的表结构与线上的不一致，导致本地抛出异常，这里用原声语句查询
             let res = await models.exec(`SELECT * FROM ${table}`);
-            fs.writeFileSync(path.dirname(__dirname) + "/public/res/temp/.sync_db.json", JSON.stringify(res));
+            fs.writeFileSync(temp_file, JSON.stringify(res));
             console.log(`\x1B[33m2、${table}表已备份。\x1b[0m`);
         }
         //第三步
@@ -88,10 +92,12 @@ async function sync_one_table() {
             process.exit(-1);
         }
         //第四步
-        let read_res = fs.readFileSync(path.dirname(__dirname) + "/public/res/temp/.sync_db.json");
-        let read_data = JSON.parse(read_res);
-        await models[table].bulkCreate(read_data);
-        fs.unlink(path.dirname(__dirname) + "/public/res/temp/.sync_db.json");
+        if(ret == "second"){
+            let read_res = fs.readFileSync(temp_file);
+            let read_data = JSON.parse(read_res);
+            await models[table].bulkCreate(read_data);
+            fs.unlink(temp_file);
+        }
         console.log(`\x1B[33m4、${table}表数据已恢复。\x1b[0m`);
         console.log(`\x1B[33m=============================================\x1b[0m`);
         console.log(`\x1B[41m所有同步操作已完成！\x1B[49m`);
@@ -200,7 +206,7 @@ async function diff_table(table) {
 
             console.log(console_table.toString());
             let line = await tips();
-            //执行第三步
+            //执行第二步
             if (line == "y") { return "second" };
         }
     }

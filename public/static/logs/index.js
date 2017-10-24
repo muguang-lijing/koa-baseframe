@@ -206,7 +206,7 @@ Vue.component('m', {
     created(){
         var self = this;
         var start_time = this.GetDateStr(-2);
-        var end_time = this.GetDateStr(0);
+        var end_time = moment().format('YYYY-MM-DD HH:mm:ss');
         this.searone.time = [start_time,end_time];
         this.seartwo.time = [start_time,end_time];
     },

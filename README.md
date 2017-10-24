@@ -1,17 +1,24 @@
 # koa-baseframe
 koa v2.x 工程级项目架构
+基于koa2框架搭建，配合一些常用的包（koa-body,koa-router,koa-session,koa-static,koa-json,koa-redis）组成了一个基本的web服务器；在数据存储和缓存方面使用了PostgreSQL关系型数据库和Redis内存数据库，除了本地需要安装这两个数据库外，系统还需要用到相关配套包（pg,pg-hstore,sequelize,ioredis）；模板引擎使用的是腾讯出的`art-template`；日志系统使用的node中有名的 bunyan 包；除此之外框架也配备了常用的工具包（moment,mime,mz,request,request-promise,uuid）以及框架自带的工具函数`/libs/utils.js`
 
 ### 基础环境  
 - node > 8.3.x
-- 数据库的链接字符串可在配置文件（config/dev.js）中设置，支持 mysql / postgres
-- redis 的配置在　配置文件中设置，其中 redis 是业务逻辑使用的redis, redisSession 是　session 使用的redis
+- 安装数据库postgre 或 mysql，推荐：PostgreSQL 9.6
+- 安装Redis 
+
+### 配置
+- 所有的配置项都在 config 目录下，`config/dev.js` 和 `config/product.js`　是基础配置文件；`config/role_product.js` 和 `config/role_dev.js` 是用户角色及权限配置文件；目录下的其他文件可不用操心  
+- 业务数据库和日志数据库的配置链接在 基础配置文件 中配置
+- redis 的配置在 基础配置文件 中配置
 
 ### 运行  
 - 进入项目目录 运行 `npm install`  
-- 修改配置文件，确保 数据库链接字符串正确  
-- 同步数据库（新环境第一次运行项目） 运行 `npm run initDb`  
-- 运行，推荐使用pm2，首先全局安装pm２, 然后运行 `pm2 start pm2_config.json`。或直接启动，运行`npm start`，生产环境启动方式：`NODE_ENV=production npm start`
-- 访问 http://127.0.0.1:5000/test
+- 同步数据库，包括日志数据库（新环境第一次运行项目） 运行 `npm run initDb` 
+- 直接本地运行：`npm start`
+- pm2运行：首先全局安装pm２, 然后运行 `npm run start_pm2` 或 `pm2 start pm2_config.json`
+- 若是生产环境则运行时需加上环境变量，如：`NODE_ENV=production npm start`
+- 访问 http://127.0.0.1:5002/test
 
 ### 目录介绍  
 - bin                   项目启动文件以及数据库初始化文件  
@@ -26,7 +33,7 @@ koa v2.x 工程级项目架构
 - app.js                项目的全局设置及中间件
 
 ### 数据库操作
-- 项目成功运行后，可依次从上往下执行 routes/orders 中的路由进行测试。关于数据库操作具体可参考：[http://itbilu.com/nodejs/npm/N1yrA4HQW.html](http://itbilu.com/nodejs/npm/N1yrA4HQW.html)
+- 关于数据库操作具体可参考：[http://itbilu.com/nodejs/npm/N1yrA4HQW.html](http://itbilu.com/nodejs/npm/N1yrA4HQW.html)
 
 ### 日志记录与查看 
 - 首先需安装一个命令行工具用于方便查看日志： `npm install -g bunyan`  
@@ -42,6 +49,8 @@ koa v2.x 工程级项目架构
 - 路由接口注释的写法可查阅文档并参考　`testapi/restapi.js`  
 - 同步接口注释到文档：　`npm run syncDoc`　，然后访问　http://127.0.0.1:5042/apidoc 即可查看生成的线上接口文档  
 - 注意：正式使用时需要在package.json里面把文档生成命令的输入选项该为项目的实际路由目录
+
+### 用户权限及配置说明
 
 ### 重要引导
 - `bin/crontab`目录下主要存放一些定时任务的js，需要定时运行的脚本可在　`bin/crontab/index.js`文件里配置  

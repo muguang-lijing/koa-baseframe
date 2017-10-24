@@ -3,8 +3,10 @@
 
 node_modules
 config/index.js
+config/routers_filter.js
+config/field_auto_update.js
 log.txt
-public/res/imgs
+public/static/imgs/
 public/res/temp
 
 # User-specific files
