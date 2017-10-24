@@ -1,5 +1,5 @@
 # koa-baseframe
-koa v2.x 工程级项目架构
+koa v2.x 工程级项目架构  
 基于koa2框架搭建，配合一些常用的包（koa-body,koa-router,koa-session,koa-static,koa-json,koa-redis）组成了一个基本的web服务器；在数据存储和缓存方面使用了PostgreSQL关系型数据库和Redis内存数据库，除了本地需要安装这两个数据库外，系统还需要用到相关配套包（pg,pg-hstore,sequelize,ioredis）；模板引擎使用的是腾讯出的`art-template`；日志系统使用的node中有名的 bunyan 包；除此之外框架也配备了常用的工具包（moment,mime,mz,request,request-promise,uuid）以及框架自带的工具函数`/libs/utils.js`
 
 ### 基础环境  
