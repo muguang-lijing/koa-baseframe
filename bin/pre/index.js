@@ -20,5 +20,6 @@ try {
     fs.unlinkSync(path.join(baseDir,'public/res/temp/temp1')); // 删掉控制单进程执行的临时文件
 }catch(e){}
 
+require('./check_files');
 require('./create_routers_filter');
 require('./create_db_field_auto_change_code');

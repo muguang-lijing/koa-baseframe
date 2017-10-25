@@ -85,7 +85,7 @@ module.exports = {
       });
     });
     return cb ? "" : promise;
-  },
+  },scanFolder,
   down2dir,code_replace_zs,code_unreplace_zs,code_unreplace_str,find_left_flag,code_remove_zs,
   pipeSync: function (rstream,wstream){  // pipe 的同步方法
     return new Promise((resolve)=>{
@@ -328,4 +328,70 @@ function find_left_flag(str,flags,left_n){
       }
   }
   return i;
+}
+
+function scanFolder(basePath, path) { //文件夹列表读取
+  // 记录原始路径
+  let oldPath = path;
+  let filesList = [];
+
+  let fileList = [],
+      folderList = [],
+      walk = function (path, fileList, folderList) {
+          files = fs.readdirSync(basePath + path);
+          files.forEach(function (item) {
+
+              let tmpPath = basePath + path + '/' + item,
+                  relativePath = path + '/' + item,
+                  stats = fs.statSync(tmpPath);
+              let typeKey = "folder";
+              if (oldPath === path) {
+                  if (stats.isDirectory()) {
+                      walk(relativePath, fileList, folderList);
+                  } else {
+                      let fileType = item.split('.')[1];
+
+                      if (fileType) {
+                          let ltype = fileType.toLowerCase();
+                          if (ltype.indexOf("jpg") >= 0 ||
+                              ltype.indexOf("gif") >= 0 ||
+                              ltype.indexOf("png") >= 0 ||
+                              ltype.indexOf("pdf") >= 0) {
+                              typeKey = "image";
+                          } else if (ltype.indexOf("htm") >= 0) {
+                              typeKey = "html";
+                          } else if (ltype.indexOf("js") == 0) {
+                              typeKey = "js";
+                          } else if (ltype.indexOf("ejs") == 0) {
+                              typeKey = "ejs";
+                          } else if (ltype.indexOf("css") >= 0) {
+                              typeKey = "css";
+                          } else if (ltype.indexOf("txt") >= 0) {
+                              typeKey = "txt";
+                          } else if (ltype.indexOf("mp4") >= 0 ||
+                              ltype.indexOf("mp3") >= 0) {
+                              typeKey = "video";
+                          } else {
+                              typeKey = "others";
+                          }
+                      }
+                  }
+
+                  let fileInfo = {
+                      "name": item,
+                      "type": typeKey,
+                      "path": relativePath,
+                      "size": stats.size,
+                      "date": stats.mtime
+                  };
+                  filesList.push(fileInfo);
+
+              }
+          });
+      };
+
+  walk(path, fileList, folderList);
+  //        console.log('扫描' + path +'成功----'+ filesList.join());
+
+  return filesList;
 }

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node bin/www.js",
     "start_pm2": "pm2 start pm2_config.json",
-    "initDb": "node bin/init_table.js all && node bin/init_table.js the_log_db",
+    "initDb": "node bin/pre/check_files.js && node bin/init_table.js all && node bin/init_table.js the_log_db",
     "syncDoc": "sudo apidoc -i routes/ -o public/apidoc/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
