@@ -1,7 +1,8 @@
 'use strict';
 // 官网参考：　http://knexjs.org/
-
-const knex = require('knex')({client: 'pg'});
+const config = require('../config');
+const uuid = require('uuid');
+const knex = config.knex;
 
 let sql = [];
 sql[0] = knex.select().table('books');
@@ -23,8 +24,18 @@ sql[14] = knex('users').max('age');
 sql[15] = knex('users').sum('products as p');
 sql[16] = knex('books').where('id', '=', 1).increment('read', 10);
 
-sql[99] = knex('table').insert({a: 'b'}).returning('*');
-
 sql.forEach((v,i)=>{
     console.log(i+" : "+v.toString());
 })
+
+// (async () => {
+//     let out = await knex('banner').insert({
+//         id: uuid.v1(),
+//         img_url: 'eeeee.jpg', 
+//         content_url: 'eee.com', 
+//         type: 'skill_video'
+//     });
+//     console.log("insert ok!!!!!!!!!!!!!!!!");
+// })().catch(e=>{
+//     console.error(e);
+// })

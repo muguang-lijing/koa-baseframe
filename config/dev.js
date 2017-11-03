@@ -8,12 +8,15 @@ const roles = require('./role_dev');
 const appName = 'koa2';  // 务必配置，改写成自己系统的名称
 const host = "http://aabc.com";　　// 务必配置，系统主机地址
 const host_doc = "http://aabc.com:3333";  // 务必配置，系统文档主机地址
+const db_uri = "postgres://postgres:pg3110@127.0.0.1:5432/testdb1"; // 务必配置，业务数据库的连接字符串
+const db_log_uri = "postgres://postgres:pg3110@127.0.0.1:5432/testdb_log"; // 务必配置，日志数据库的连接字符串
 
 module.exports = {
     "port": 5002,  // 服务端口号
     "timeout": 30 * 20 * 1000,  // 路由响应的最大超时时间
-    "db_uri": "postgres://postgres:pg3110@127.0.0.1:5432/testdb1",　　// 务必配置，业务数据库的连接字符串
-    "db_log_uri": "postgres://postgres:pg3110@127.0.0.1:5432/testdb_log",  // 务必配置，日志数据库的连接字符串
+    "db_uri": db_uri,
+    "db_log_uri": db_log_uri,
+    "knex": require('knex')({ client: 'pg', connection: db_uri, pool: {min: 0, max: 7} }),
     "log": {  // 日志打印输出的日志级别，默认打印高于 debug 级别的日志（关于日志级别，具体可查　bunyan 日志包的文档）
         "level": "debug"
     },

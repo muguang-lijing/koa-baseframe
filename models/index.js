@@ -8,8 +8,8 @@ const logger = require('../libs/logger').tag('db');
 
 const sequelize = new Sequelize(config.db_uri, {
     pool: {
-        minConnections: 0,
-        maxConnections: 5,
+        minConnections: 1,
+        maxConnections: 10,
         maxIdleTime: 10000
     },
     logging: function (msg){
