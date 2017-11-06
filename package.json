@@ -29,6 +29,7 @@
     "bytes": "^2.5.0",
     "cli-table": "^0.3.1",
     "ioredis": "^3.1.1",
+    "js-beautify": "^1.7.4",
     "knex": "^0.13.0",
     "koa": "^2.2.0",
     "koa-art-template": "^1.1.1",
