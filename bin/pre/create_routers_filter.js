@@ -4,7 +4,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const utils = require('../../libs/utils');
+const utils = require('mg-utils');
 
 let out = {};
 

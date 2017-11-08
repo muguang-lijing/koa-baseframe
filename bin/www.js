@@ -7,7 +7,7 @@ const app = require('../app');
 const http = require('http');
 const log = require('../libs/logger').tag('app');
 const config = require('../config');
-const utils = require('../libs/utils');
+const utils = require('mg-utils');
 const models = require('../models');
 
 (async ()=>{

@@ -4,7 +4,7 @@
  */
 const fs = require('fs');
 const path = require('path');
-const utils = require('../../libs/utils');
+const utils = require('mg-utils');
 const mdfupds = require('../../config/field_auto_update');
 
 let models_dir = path.join(utils.baseDir(),'models');

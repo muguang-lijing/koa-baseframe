@@ -1,7 +1,7 @@
 "use strict";
 
 const bytes = require('bytes');
-const utils = require('../libs/utils');
+const utils = require('mg-utils');
 const logger = require('../libs/logger');
 const createError = require('http-errors');
 const config = require('../config');

@@ -1,7 +1,7 @@
 "use strict"
 const child_process = require('child_process');
 const path = require('path');
-const utils = require('../../libs/utils');
+const utils = require('mg-utils');
 const log = require('../../libs/logger').tag('crontab');
 const fs = require('fs');
 let cp_dir = path.join(utils.baseDir(),'bin/crontab');

@@ -5,7 +5,7 @@ const router = new Router();
 const log = require('../libs/logger').tag('other');
 const config = require('../config');
 const common = require('../libs/common');
-const utils = require('../libs/utils');
+const utils = require('mg-utils');
 const uuid = require('uuid');
 const {fs} = require('mz');
 

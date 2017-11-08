@@ -10,7 +10,7 @@ const parser = require('koa-body');
 const serve = require('koa-static');
 const config = require('./config');
 const path = require('path');
-const utils = require('./libs/utils');
+const utils = require('mg-utils');
 const middlewares = require('./middlewares');
 const load = require('./libs/load');
 

@@ -1,6 +1,6 @@
 'use strict';
 const rp = require('request-promise');
-const utils = require('../libs/utils');
+const utils = require('mg-utils');
 
 (async ()=>{
     let out = {};
