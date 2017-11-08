@@ -12,7 +12,7 @@ const {fs} = require('mz');
 /**
  * 上传1张或多张图片
  */
-router.get('/upload_img', async ctx => {
+router.post('/upload_img', async ctx => {
     let body_files = ctx.request.body.files;
     let outObj = {};
     for (let fname in body_files){

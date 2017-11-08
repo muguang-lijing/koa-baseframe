@@ -47,7 +47,7 @@ async function saveFile(file,option={}) {
     if (option.save_path_is_absolute){
         aim_path = path.join(file_save_path,fileName + fux);
     }else{
-        access_path = path.join('/res', file_save_path , fileName + fux);
+        access_path = path.join('/static', file_save_path , fileName + fux);
         aim_path = path.join(utils.baseDir(), 'public', access_path);
     }
     await utils.pipeSync(fs.createReadStream(file.path),fs.createWriteStream(aim_path));
