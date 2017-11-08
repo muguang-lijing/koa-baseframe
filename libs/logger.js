@@ -1,7 +1,7 @@
 'use strict';
 
 const bunyan = require('bunyan');
-const utils = require('./utils');
+const utils = require('mg-utils');
 const path = require('path');
 const fs = require('fs');
 const child_process = require('child_process');
