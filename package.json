@@ -42,7 +42,7 @@
     "mg-code-creater": "^1.0.0",
     "mg-massive": "^4.5.2",
     "mg-model-parse": "0.0.1",
-    "mg-utils": "^1.0.2",
+    "mg-utils": "^1.0.4",
     "mime": "^1.3.6",
     "moment": "^2.18.1",
     "mz": "^2.6.0",
