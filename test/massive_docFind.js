@@ -1,7 +1,7 @@
 'use strict';
 
 const config = require('../config');
-const massive = require('massive');
+const massive = require('mg-massive');
 const monitor = require('pg-monitor');
 
 (async () => {
@@ -11,7 +11,7 @@ const monitor = require('pg-monitor');
     // let out = await db.reports.findDoc(); // 全部查询
     // let out = await db.reports.findDoc(2); // 根据主键(id)，查询
     let out = await db.reports.findDoc({ 
-        'content.lists[0] >': 30
+        'content.lists[1] >': 20
     });
     console.log("out: \n"+JSON.stringify(out,null,4));
     

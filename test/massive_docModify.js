@@ -1,7 +1,7 @@
 'use strict';
 
 const config = require('../config');
-const massive = require('massive');
+const massive = require('mg-massive');
 const monitor = require('pg-monitor');
 
 (async () => {
@@ -15,10 +15,10 @@ const monitor = require('pg-monitor');
     // let out = await db.reports.modify(2,{  // 根据id修改
     //     extra: '666666'
     // });
-    let out = await db.reports.modify({ 
-        'content.lists[0] >': 30
+    let out = await db.reports1.modify({ 
+        'content.lists[1] >': 30
     },{
-        extra: '9999999'
+        extra: 'extraji77777777'
     });
     console.log("out: \n"+JSON.stringify(out,null,4));
     

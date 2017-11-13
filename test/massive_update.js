@@ -1,8 +1,14 @@
 'use strict';
 
 const config = require('../config');
-const massive = require('massive');
+const massive = require('mg-massive');
 const monitor = require('pg-monitor');
+
+/**
+ * 
+ * Increase the capacity that select the internal value of the JSONB field and can rename the selected field
+I think this feature is necessary, and it's very common. I often need it on my projects.
+ */
 
 (async () => {
     let db = await massive(config.db_uri);
@@ -14,7 +20,7 @@ const monitor = require('pg-monitor');
     await db.massive.update({
         'extra.comment[0] ilike': 'xxx%' 
     },{
-        price: 305
+        price: 290
     });
 
     /**
@@ -25,7 +31,7 @@ const monitor = require('pg-monitor');
      */
     await db.massive.modify({
         'price >': '500'
-    }, {"生产月份": 10},'attrs');
+    }, {"生产月份": 8},'attrs');
 
     console.log('ok');
 
