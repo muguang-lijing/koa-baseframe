@@ -41,7 +41,7 @@
     "koa-static": "^3.0.0",
     "mg-code-creater": "^1.0.0",
     "mg-massive": "^4.5.2",
-    "mg-model-parse": "0.0.1",
+    "mg-model-parse": "0.0.2",
     "mg-utils": "^1.0.4",
     "mime": "^1.3.6",
     "moment": "^2.18.1",
