@@ -17,7 +17,9 @@ sql[7] = knex('users').where({'id': 1,'sex': true}).orWhere({votes: 100, user: '
 sql[8] = knex.whereIn('id', ['1', '4', '9']).from('users');
 sql[9] = knex('users').whereNull('updated_at');
 sql[10] = knex('users').join('contacts', 'users.id', '=', 'contacts.user_id').select('users.id', 'contacts.phone');
-sql[11] = knex('users').leftJoin('books','users.id','books.author').column(['users.id', 'books.name']);
+sql[11] = knex('users').where('users.age','>',23).andWhere('status', 'active')
+.leftJoin('books','users.id','books.author').
+column(['users.id', 'name']);
 sql[12] = knex.select('title','year').orderBy('time', 'desc');
 sql[13] = knex('users').count('active as a');
 sql[14] = knex('users').max('age');

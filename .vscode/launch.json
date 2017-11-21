@@ -17,6 +17,13 @@
             "name": "预执行代码",
             "program": "${workspaceRoot}/bin/pre/index.js",
             "cwd": "${workspaceRoot}"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "code_creater",
+            "program": "${workspaceRoot}/bin/creater/index.js",
+            "cwd": "${workspaceRoot}"
         }
     ]
 }
