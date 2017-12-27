@@ -24,7 +24,7 @@ module.exports = {
     } else {
       length = bytes(len);
     }
-    if (/^\/(activity|css|dist|fonts|js|src|text|res|img).*/.test(ctx.req.url) == false) {
+    if (/^\/(activity|css|dist|fonts|js|src|text|res|img|apidoc).*/.test(ctx.req.url) == false) {
       let reqInfo = {
         duration: duration,
         uid: ctx.uid,
@@ -175,7 +175,7 @@ module.exports = {
     await next();
   },
   authControl: async (ctx, next) => { // 权限控制
-    let cur_role = ctx.session.role ||  'unknown';
+    let cur_role = ctx.session && ctx.session.role ||  'unknown';
     let role_config = role_sets[cur_role].cons;
     let isPass = false;
     if (role_config) {

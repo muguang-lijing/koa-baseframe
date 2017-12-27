@@ -18,6 +18,7 @@ const load = require('./libs/load');
 app.use(middlewares.requestUuid);
 app.use(middlewares.requestLogger);
 app.use(middlewares.errorHandler);
+app.use(middlewares.authControl);
 
 app.use(serve(__dirname + '/public', {
   setHeaders: function(res) {
@@ -40,8 +41,6 @@ app.use(session({
       keySchema: config.sessionKey
     })
   },app));
-
-app.use(middlewares.authControl);
 
 render(app, {
   root: path.join(__dirname, 'views'),
