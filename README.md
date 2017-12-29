@@ -15,6 +15,7 @@ koa v2.x 工程级项目架构
 ### 运行  
 - 进入项目目录 运行 `npm install`（安装过程中若提示缺少 libpq-dev ，则需要在操作系统中安装，Ubuntu示例：`sudo apt install libpq-dev`）  
 - 同步数据库，包括日志数据库（新环境第一次运行项目） 运行 `npm run initDb` 
+- 安装全局包： `npm install apidoc -g`
 - 直接本地运行：`npm start`
 - pm2运行：首先全局安装pm２, 然后运行 `npm run start_pm2` 或 `pm2 start pm2_config.json`
 - 若是生产环境则运行时需加上环境变量，如：`NODE_ENV=production npm start`
@@ -47,8 +48,7 @@ koa v2.x 工程级项目架构
 - 接口文档采用 [apidoc](http://apidocjs.com/) 模块根据源码注释自动生成  
 - 安装apidoc命令行工具：`npm install apidoc -g`  
 - 路由接口注释的写法可查阅文档并参考　`testapi/restapi.js`  
-- 同步接口注释到文档：　`npm run syncDoc`　，然后访问　http://127.0.0.1:5042/apidoc 即可查看生成的线上接口文档  
-- 注意：正式使用时需要在package.json里面把文档生成命令的输入选项该为项目的实际路由目录
+- 项目在启动的时候会自动生成文档页面，访问　`/apidoc/index.html` 即可查看生成的线上接口文档  
 
 ### 用户权限及配置说明
 

@@ -2,6 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const baseDir = path.dirname(path.dirname(__dirname));
+const child_process = require('child_process');
 
 if (!isProduction()){ // 是测试环境
     var config_file = '/dev.js';
@@ -23,3 +24,8 @@ try {
 require('./check_files');
 require('./create_routers_filter');
 require('./create_db_field_auto_change_code');
+
+let std_out = child_process.execSync(`apidoc -i routes/ -o public/apidoc/`);
+console.log();
+console.log("接口文档已生成：");
+console.log(std_out+"");
